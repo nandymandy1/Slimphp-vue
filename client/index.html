@@ -196,13 +196,13 @@
                     <td>{{ customer.city }}</td>
                     <td>{{ customer.state }}</td>
                     <td>
-                        <button type="button" class="btn btn-md btn-info" data-toggle="modal" data-target="#viewModal" @click="getCustomerById(customer.id)">
+                        <button type="button" class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#viewModal" @click="getCustomerById(customer.id)">
                             View
                         </button>
-                        <button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#editModal" @click="getCustomerById(customer.id)">
+                        <button type="button" class="btn btn-sm btn-block btn-primary" data-toggle="modal" data-target="#editModal" @click="getCustomerById(customer.id)">
                             Edit
                         </button>
-                        <button class="btn btn-md btn-danger" @click="deleteCustomer(customer.id)">Delete</button>
+                        <button class="btn btn-sm btn-block btn-danger" @click="deleteCustomer(customer.id)">Delete</button>
                     </td>
                 </tr>
             </tbody>
