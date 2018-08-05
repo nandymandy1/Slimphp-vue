@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="index.html">Vue Client</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div id="app" class="container">
+        <!-- SUCCESS MODAL -->
+        <div class="alert alert-success" v-if="success" role="alert">
+            {{ msg }}
+        </div>
+        <!-- SUCCESS MODAL -->
+        <!-- ERROR MODAL -->
+        <div class="alert alert-danger`" v-if="err" role="alert">
+            {{ msg }}
+        </div>
+        <!-- ERROR MODAL -->
+        <!--ADD CUSTOMER MODAL-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Add Customer
+        </button>
+        <!--ADD Customer Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Customer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">First Name</label>
+                            <input type="text" name="first_name" class="form-control" placeholder="First Name" v-model="first_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" placeholder="Last Name" v-model="last_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" name="email" class="form-control" placeholder="Email" v-model="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Phone</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Phone" v-model="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="Address" v-model="address">
+                        </div>
+                        <div class="form-group">
+                            <label for="">City</label>
+                            <input type="text" name="city" class="form-control" placeholder="City" v-model="city">
+                        </div>
+                        <div class="form-group">
+                            <label for="">State</label>
+                            <input type="text" name="state" class="form-control" placeholder="State" v-model="state">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="addCustomer()" data-dismiss="modal">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--ADD CUSTOMER MODAL-->
+        <!--View Customer Modal -->
+        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ customer.first_name }} {{ customer.last_name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="reset()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span>First Name:</span> {{ customer.first_name }}</li>
+                            <li class="list-group-item">
+                                <span>Last Name:</span> {{ customer.last_name }}</li>
+                            <li class="list-group-item">
+                                <span>Contact:</span> {{ customer.phone }}</li>
+                            <li class="list-group-item">
+                                <span>Email:</span> {{ customer.email }}</li>
+                            <li class="list-group-item">
+                                <span>Address:</span> {{ customer.address }}</li>
+                            <li class="list-group-item">
+                                <span>City:</span> {{ customer.city }}</li>
+                            <li class="list-group-item">
+                                <span>State:</span> {{ customer.state }}</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="reset()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--VIEW CUSTOMER MODAL-->
+        <!--EDIT CUSTOMER MODAL-->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ customer.first_name }} {{ customer.last_name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="reset()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">First Name</label>
+                            <input type="text" name="first_name" v-model="customer.first_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Last Name</label>
+                            <input type="text" name="last_name" v-model="customer.last_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Contact</label>
+                            <input type="text" name="contact" v-model="customer.phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="email" name="email" v-model="customer.email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Address</label>
+                            <input type="text" name="address" v-model="customer.address" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">City</label>
+                            <input type="text" name="city" v-model="customer.city" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="">State</label>
+                            <input type="text" name="state" v-model="customer.state" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="updateCustomer()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--EDIT CUSTOMER MODAL-->
+        <br>
+        <br>
+        <!--VIEW CUSTOMERS IN TABLE-->
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#Id</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="customer in customers">
+                    <th scope="row">{{ customer.id }}</th>
+                    <td>{{ customer.first_name }}</td>
+                    <td>{{ customer.last_name }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.state }}</td>
+                    <td>
+                        <button type="button" class="btn btn-md btn-info" data-toggle="modal" data-target="#viewModal" @click="getCustomerById(customer.id)">
+                            View
+                        </button>
+                        <button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#editModal" @click="getCustomerById(customer.id)">
+                            Edit
+                        </button>
+                        <button class="btn btn-md btn-danger" @click="deleteCustomer(customer.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--VIEW CUSTOMERS IN TABLE-->
+    </div>
+</body>
+<script src="./assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/vue.js"></script>
+<script src="./assets/js/axios.js"></script>
+
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                customers: {},
+                customer: {},
+                state: '',
+                city: '',
+                first_name: '',
+                last_name: '',
+                address: '',
+                phone: '',
+                email: '',
+                msg: '',
+                success: false,
+                err: false
+            }
+        },
+        methods: {
+            // get all the customers from the database
+            getCustomers() {
+                axios.get(`http://slimapp/api/customers`).then(res => {
+                    this.customers = res.data
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
+            //Get single customer from the Database by id
+            getCustomerById(id) {
+                axios.get(`http://slimapp/api/customer/${id}`).then(res => {
+                    this.customer = res.data
+                }).catch(err => {
+                    console.log('Unable to get the Customer')
+                })
+            },
+            // Rest the customer object
+            reset() {
+                this.customer = {}
+            },
+            // Add new customer
+            addCustomer() {
+                var formData = new FormData()
+                formData.append('first_name', this.first_name)
+                formData.append('last_name', this.last_name)
+                formData.append('city', this.city)
+                formData.append('phone', this.phone)
+                formData.append('address', this.address)
+                formData.append('state', this.state)
+                formData.append('email', this.email)
+                formData.append('phone', this.phone)
+                axios.post(`http://slimapp/api/customer/add`, formData).then(res => {
+                    if (res.data.success) {
+                        this.success = res.data.success
+                        this.first_name = ''
+                        this.last_name = ''
+                        this.city = ''
+                        this.address = ''
+                        this.state = ''
+                        this.phone = ''
+                        this.email = ''
+                        this.msg = res.data.msg
+                        this.success = res.data.success
+                        this.getCustomers()
+                        setInterval(() => {
+                            this.msg = ''
+                            this.success = false
+                        }, 5000)
+
+                    } else {
+                        this.msg = 'Unable to add the Customer'
+                        this.err = true
+                        setInterval(() => {
+                            this.msg = ''
+                            this.err = false
+                        }, 5000)
+                    }
+                }).catch(err => { console.log(err) })
+            },
+            // Delete a customer by ID delete request
+            deleteCustomer(id) {
+                axios.delete(`http://slimapp/api/customer/delete/${id}`).then(res => {
+                    if (res.data.success) {
+                        this.success = res.data.success
+                        this.msg = res.data.msg
+                        setInterval(() => {
+                            this.msg = ''
+                            this.success = false
+                        }, 5000)
+                        this.getCustomers()
+                    } else {
+                        this.err = true
+                        this.msg = res.data.msg
+                        setInterval(() => {
+                            this.msg = ''
+                            this.err = false
+                        }, 5000)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
+            // Updata a customer py id put request
+            updateCustomer() {
+                axios.put(`http://slimapp/api/customer/update/${this.customer.id}`, this.customer).then(res => {
+                    if (res.data.success) {
+                        this.customer = {}
+                        this.msg = res.data.msg
+                        this.success = res.data.success
+                        this.getCustomers()
+                        setInterval(() => {
+                            this.msg = ''
+                            this.success = false
+                        }, 5000)
+                    }
+                }).catch(err => {
+                    this.msg = 'Unable to add the Customer'
+                    this.err = true
+                    setInterval(() => {
+                        this.msg = ''
+                        this.err = false
+                    }, 5000)
+                })
+            },
+            // Open edit Modal and fetch the user detail
+            editCustomer(id) {
+                this.getCustomerById(id)
+            }
+        },
+        created() {
+            this.getCustomers()
+        }
+    })
+</script>
